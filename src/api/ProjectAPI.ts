@@ -55,6 +55,8 @@ export async function updateProject({formData, projectId} : ProjectAPIType) {
 }
 
 export async function deleteProject(id: Project["_id"]) {
+    const token = localStorage.getItem("AUTH_TOKEN")
+
     try {
         const url = `/projects/${id}`
         const { data } = await api.delete<string>(url)
