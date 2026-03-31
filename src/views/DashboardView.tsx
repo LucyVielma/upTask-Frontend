@@ -6,6 +6,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { deleteProject, getProjects } from "@/api/ProjectAPI"
 import { toast } from 'react-toastify'
 import { useAuth } from '@/hooks/useAuth'
+import { isManager } from '@/utils/policies'
 
 export default function DashboardView() {
 
@@ -48,6 +49,14 @@ export default function DashboardView() {
               <li key={project._id} className="flex justify-between gap-x-6 px-5 py-10">
                 <div className="flex min-w-0 gap-x-4">
                   <div className="min-w-0 flex-auto space-y-2">
+                    <div className='mb-2'>
+                      { isManager (project.manager, user._id) ? 
+                        <p className='font-bold text-xs bg-fuchsia-50 border-2 rounded-2xl border-fuchsia-800 inline-block py-1 px-5 text-fuchsia-900 hover:text-fuchsia-600'>Manager</p> : 
+                        <p className='font-bold text-xs bg-indigo-50 border-2 rounded-2xl border-indigo-800 inline-block py-1 px-5 text-indigo-900 hover:text-indigo-600'>Colaborador</p>
+                        
+
+                      }
+                    </div>
                     <Link to={`/projects/${project._id}`}
                       className="text-gray-600 cursor-pointer hover:underline text-3xl font-bold"
                     >{project.projectName}</Link>
@@ -79,7 +88,7 @@ export default function DashboardView() {
                           </Link>
                         </MenuItem>
 
-                        {project.manager === user._id && (
+                        { isManager(project.manager, user._id) && (
                           <>
                             <MenuItem>
                               <Link to={`/projects/${project._id}/edit`}
