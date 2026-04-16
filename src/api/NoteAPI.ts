@@ -26,7 +26,6 @@ export async function deleteNote({projectId, taskId, noteId} : Pick<NoteAPIType,
         const url = `/projects/${projectId}/tasks/${taskId}/notes/${noteId}`
         const { data } = await api.delete<string>(url)
         return data
-
     } catch (error) {
         if(isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error)
